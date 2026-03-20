@@ -13,6 +13,74 @@ st.set_page_config(
 )
 
 # ─────────────────────────────────────────────
+# PASSWORD PROTECTION
+# Password stored in Streamlit secrets — never hardcoded.
+# Streamlit Cloud: App Settings → Secrets → add:
+#   APP_PASSWORD = "your_password_here"
+# Local dev: create .streamlit/secrets.toml with same line.
+# ─────────────────────────────────────────────
+def check_password():
+    """Returns True if the user has entered the correct password."""
+    correct_password = st.secrets.get("APP_PASSWORD", "")
+
+    if not correct_password:
+        st.error("⚠️ APP_PASSWORD not set in Streamlit secrets. Please configure it.")
+        st.stop()
+
+    if st.session_state.get("authenticated"):
+        return True
+
+    # ── Login screen ──
+    st.markdown("""
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap');
+    .login-wrap {
+        max-width: 380px; margin: 10vh auto; padding: 40px 36px;
+        background: #161b22; border: 1px solid #30363d; border-radius: 16px;
+        text-align: center;
+    }
+    .login-icon  { font-size: 2.8rem; margin-bottom: 8px; }
+    .login-title {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 1.3rem; font-weight: 600; color: #58a6ff; margin-bottom: 4px;
+    }
+    .login-sub { color: #8b949e; font-size: 0.82rem; margin-bottom: 24px; }
+    .stButton > button {
+        background: #238636 !important; color: white !important;
+        border: none !important; border-radius: 8px !important;
+        font-family: "IBM Plex Mono", monospace !important;
+        font-weight: 600 !important; font-size: 0.9rem !important;
+    }
+    .stButton > button:hover { background: #2ea043 !important; }
+    </style>
+    <div class="login-wrap">
+        <div class="login-icon">🔒</div>
+        <div class="login-title">Portfolio Tracker</div>
+        <div class="login-sub">Enter password to continue</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        pwd   = st.text_input("Password", type="password",
+                              label_visibility="collapsed",
+                              placeholder="Enter password…")
+        login = st.button("🔓 Unlock", use_container_width=True)
+
+        if login or pwd:
+            if pwd == correct_password:
+                st.session_state["authenticated"] = True
+                st.rerun()
+            elif pwd:
+                st.error("❌ Incorrect password.")
+
+    return False
+
+if not check_password():
+    st.stop()
+
+
+# ─────────────────────────────────────────────
 # PORTFOLIO  (Equity_Summary_Details 20-03-2026)
 # Yahoo Finance BSE format : SYMBOL.BO
 # Yahoo Finance NSE format : SYMBOL.NS
