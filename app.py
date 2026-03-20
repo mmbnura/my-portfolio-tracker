@@ -361,8 +361,7 @@ if refresh or st.session_state.rows is None:
             "Position":          get_position(bp, cp),
             "_sort":             net,
         })
-        if not gold_err and gold_note:
-            warnings.append(f"**{g['name']}** price source: {gold_note}")
+
 
     progress.empty()
 
@@ -374,25 +373,6 @@ if refresh or st.session_state.rows is None:
     st.session_state.errors   = errors
     st.session_state.warnings = warnings
     st.session_state.fetch_time = datetime.now().strftime("%d %b %Y, %I:%M %p")
-
-# ─────────────────────────────────────────────
-# ALERTS
-# ─────────────────────────────────────────────
-if st.session_state.warnings:
-    with st.expander(f"📌 {len(st.session_state.warnings)} manual / fixed price entries"):
-        for w in st.session_state.warnings:
-            st.markdown(f'<div class="warn-box">⚠️ {w}</div>', unsafe_allow_html=True)
-
-if st.session_state.errors:
-    with st.expander(f"❌ {len(st.session_state.errors)} ticker(s) failed to load"):
-        for e in st.session_state.errors:
-            st.markdown(f'<div class="error-box">{e}</div>', unsafe_allow_html=True)
-        st.markdown("""
-**Fixes to try:**
-- Wrong symbol → Search on [finance.yahoo.com](https://finance.yahoo.com) and update `PORTFOLIO` in `app.py`
-- Delisted / renamed → Update the symbol  
-- Network issue → Try again in a moment
-""")
 
 rows = st.session_state.rows
 if not rows:
@@ -508,6 +488,25 @@ with col_b:
         )
     if not losers:
         st.markdown("_No losses — great portfolio! 🎉_")
+
+# ─────────────────────────────────────────────
+# ALERTS  (shown at bottom, non-intrusive)
+# ─────────────────────────────────────────────
+if st.session_state.warnings:
+    with st.expander(f"📌 {len(st.session_state.warnings)} note(s)"):
+        for w in st.session_state.warnings:
+            st.markdown(f'<div class="warn-box">⚠️ {w}</div>', unsafe_allow_html=True)
+
+if st.session_state.errors:
+    with st.expander(f"❌ {len(st.session_state.errors)} ticker(s) failed to load"):
+        for e in st.session_state.errors:
+            st.markdown(f'<div class="error-box">{e}</div>', unsafe_allow_html=True)
+        st.markdown("""
+**Fixes to try:**
+- Wrong symbol → Search on [finance.yahoo.com](https://finance.yahoo.com) and update `PORTFOLIO` in `app.py`
+- Delisted / renamed → Update the symbol
+- Network issue → Try again in a moment
+""")
 
 # ─────────────────────────────────────────────
 # FOOTER
