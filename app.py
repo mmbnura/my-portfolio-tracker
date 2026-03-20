@@ -105,12 +105,11 @@ PORTFOLIO = [
     {"name": "Tejas Networks",        "symbol": "TEJASNET.BO",  "shares":   50, "buy_price":  330.32},
 ]
 
-# Gold Bonds — not on Yahoo Finance; tracked at fixed purchase value
-# (Update current_price manually when you know the redemption NAV)
+# Gold Bonds — current price derived live from COMEX gold futures + USD/INR
+# 1 SGB unit = 1 gram of 24K (999 purity) gold
 GOLD_BONDS = [
     {"name": "2.50% Gold Bonds 2029 SR-XII",
-     "shares": 2, "buy_price": 4662.00, "current_price": 4662.00,
-     "note": "SGB — not on Yahoo Finance. Price fixed at purchase cost. Update manually."},
+     "shares": 2, "buy_price": 4662.00},
 ]
 
 # ─────────────────────────────────────────────
@@ -183,6 +182,38 @@ def fetch_yf_prices(symbol: str, days: int = 10):
         return [], str(e)
 
 
+def fetch_gold_price_inr():
+    """
+    Derives live 24K gold price in INR per gram using:
+      GC=F      → COMEX Gold Futures (USD per troy oz)
+      USDINR=X  → Live USD/INR exchange rate
+    Formula: (gold_usd × usd_inr) / 31.1035
+    This matches the 999-purity price RBI uses for SGB valuation.
+    Returns (price_per_gram_inr, source_note, error_string).
+    """
+    TROY_OZ_TO_GRAM = 31.1035
+    try:
+        gold  = yf.Ticker("GC=F")
+        forex = yf.Ticker("USDINR=X")
+
+        gold_hist  = gold.history(period="5d",  auto_adjust=True)
+        forex_hist = forex.history(period="5d", auto_adjust=True)
+
+        if gold_hist.empty or forex_hist.empty:
+            return None, "", "Could not fetch gold or USD/INR data from Yahoo Finance."
+
+        gold_usd  = float(gold_hist["Close"].dropna().iloc[-1])
+        usd_inr   = float(forex_hist["Close"].dropna().iloc[-1])
+        price_inr = (gold_usd * usd_inr) / TROY_OZ_TO_GRAM
+
+        note = (f"Live 24K gold: ${gold_usd:,.2f}/oz × "
+                f"₹{usd_inr:.2f}/$ ÷ 31.1035 g/oz = ₹{price_inr:,.2f}/g")
+        return round(price_inr, 2), note, ""
+
+    except Exception as e:
+        return None, "", str(e)
+
+
 def analyze_trend(prices):
     if len(prices) < 2:
         return "➡ Flat"
@@ -228,13 +259,13 @@ with st.sidebar:
     st.markdown("**Equity (Yahoo Finance)**")
     for s in PORTFOLIO:
         st.markdown(f"- {s['name']}  `{s['symbol']}`")
-    st.markdown("**Fixed / Manual**")
+    st.markdown("**Sovereign Gold Bonds (Live Gold Price)**")
     for g in GOLD_BONDS:
         st.markdown(f"- {g['name']}")
     st.markdown("---")
     st.markdown(
-        "<small style='color:#8b949e'>Data: Yahoo Finance (BSE EOD)<br>"
-        "Refresh loads all tickers in ~5–10 seconds.</small>",
+        "<small style='color:#8b949e'>Equities: Yahoo Finance BSE (EOD)<br>"
+        "Gold: COMEX Futures + USD/INR · No API key needed.</small>",
         unsafe_allow_html=True,
     )
 
@@ -297,11 +328,26 @@ if refresh or st.session_state.rows is None:
             "_sort":             net_profit,
         })
 
-    # ── Gold Bonds (manual / fixed) ──────────
+    # ── Gold Bonds (live price via COMEX + USD/INR) ────
+    progress.progress(1.0, text="Fetching live gold price (COMEX + USD/INR)…")
+    gold_per_gram, gold_note, gold_err = fetch_gold_price_inr()
+
     for g in GOLD_BONDS:
-        cp  = g["current_price"]
         bp  = g["buy_price"]
         qty = g["shares"]
+
+        if gold_err or gold_per_gram is None:
+            # Fallback: use purchase price and flag error
+            cp = bp
+            errors.append(
+                f"**{g['name']}**: Could not fetch live gold price — "
+                f"showing at purchase price. Reason: {gold_err}"
+            )
+            trend = "📌 Fallback"
+        else:
+            cp = gold_per_gram
+            trend = "🥇 Live Gold"
+
         net = (cp - bp) * qty
         rows.append({
             "Stock":             g["name"],
@@ -311,13 +357,12 @@ if refresh or st.session_state.rows is None:
             "Invested (₹)":      round(bp * qty, 2),
             "Value (₹)":         round(cp * qty, 2),
             "Net P&L (₹)":       round(net, 2),
-            "Trend":             "📌 Manual",
+            "Trend":             trend,
             "Position":          get_position(bp, cp),
             "_sort":             net,
         })
-        warnings.append(
-            f"**{g['name']}**: {g['note']}"
-        )
+        if not gold_err and gold_note:
+            warnings.append(f"**{g['name']}** price source: {gold_note}")
 
     progress.empty()
 
@@ -370,7 +415,7 @@ cards = [
     ("Net P&L",         format_inr(net_total),       "positive" if net_total >= 0 else "negative"),
     ("Overall Return",  f"{'+'if pct_change>=0 else ''}{pct_change:.2f}%",
                         "positive" if pct_change >= 0 else "negative"),
-    ("Stocks Tracked",  f"{loaded} live + {len(GOLD_BONDS)} fixed", ""),
+    ("Stocks Tracked",  f"{loaded} live + {len(GOLD_BONDS)} SGB", ""),
 ]
 for col, (label, value, cls) in zip([c1, c2, c3, c4, c5], cards):
     with col:
@@ -473,6 +518,6 @@ if st.session_state.fetch_time:
         f"<small style='color:#8b949e;font-family:monospace'>"
         f"Last updated: {st.session_state.fetch_time} &nbsp;·&nbsp; "
         f"{len(rows)}/{len(PORTFOLIO) + len(GOLD_BONDS)} securities loaded &nbsp;·&nbsp; "
-        f"Prices via Yahoo Finance (BSE EOD)</small>",
+        f"Equities: Yahoo Finance BSE (EOD) · Gold: COMEX Futures + USD/INR</small>",
         unsafe_allow_html=True,
     )
