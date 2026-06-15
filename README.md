@@ -37,8 +37,7 @@ A personal stock portfolio dashboard built with **Python + Streamlit**, powered 
 | Tejas Networks | `TEJASNET.BO` | 50 | ₹330.32 |
 | 2.50% Gold Bonds 2029 SR-XII | *(manual)* | 2 | ₹4,662.00 |
 
-> **Note:** Sovereign Gold Bonds (SGBs) are not listed on Yahoo Finance and are tracked at purchase price.  
-> Update the `current_price` field manually in `app.py` using the RBI-published NAV.
+> **Note:** Sovereign Gold Bonds (SGBs) are configured in `portfolio.json`; their current value is derived live from COMEX gold futures and USD/INR.
 
 ---
 
@@ -93,13 +92,26 @@ Your app will be live in ~2 minutes. ✅
 
 ## ⚙️ Customise Your Portfolio
 
-Edit the `PORTFOLIO` list at the top of `app.py`:
+Edit the holdings in `portfolio.json` instead of changing the Python code:
 
-```python
-PORTFOLIO = [
-    {"name": "Reliance Industries", "symbol": "RELIANCE.BO", "shares": 10, "buy_price": 2450.00},
-    # Add more rows as needed...
-]
+```json
+{
+  "portfolio": [
+    {
+      "name": "Reliance Industries",
+      "symbol": "RELIANCE.BO",
+      "shares": 10,
+      "buy_price": 2450.00
+    }
+  ],
+  "gold_bonds": [
+    {
+      "name": "2.50% Gold Bonds 2029 SR-XII",
+      "shares": 2,
+      "buy_price": 4662.00
+    }
+  ]
+}
 ```
 
 ### Finding the right Yahoo Finance symbol
@@ -111,21 +123,9 @@ PORTFOLIO = [
 
 Search [finance.yahoo.com](https://finance.yahoo.com) to confirm the exact ticker.
 
-### Updating Sovereign Gold Bond (SGB) price
+### Updating Sovereign Gold Bond (SGB) holdings
 
-SGBs are not on Yahoo Finance. Update the price manually:
-
-```python
-GOLD_BONDS = [
-    {
-        "name": "2.50% Gold Bonds 2029 SR-XII",
-        "shares": 2,
-        "buy_price": 4662.00,
-        "current_price": 7500.00,   # ← update with current RBI NAV
-        ...
-    }
-]
-```
+SGB holdings are configured in the `gold_bonds` section of `portfolio.json`. The app derives their current value live from COMEX gold futures and USD/INR.
 
 RBI publishes SGB NAV weekly at [rbi.org.in](https://www.rbi.org.in).
 
@@ -148,6 +148,7 @@ RBI publishes SGB NAV weekly at [rbi.org.in](https://www.rbi.org.in).
 ```
 portfolio-tracker/
 ├── app.py            # Main Streamlit application
+├── portfolio.json    # Portfolio and SGB holdings
 ├── requirements.txt  # Python dependencies
 └── README.md         # This file
 ```
