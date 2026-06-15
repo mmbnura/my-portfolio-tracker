@@ -1,6 +1,12 @@
 {
   "portfolio": [
     {
+      "name": "Coal India Ltd",
+      "symbol": "COALINDIA.BO",
+      "shares": 10,
+      "buy_price": 460.07
+    },
+    {
       "name": "ITC Hotels Ltd",
       "symbol": "ITCHOTEL.BO",
       "shares": 10,
@@ -27,14 +33,20 @@
     {
       "name": "LIC of India",
       "symbol": "LICI.BO",
-      "shares": 15,
-      "buy_price": 904.00
+      "shares": 30,
+      "buy_price": 452.00
     },
     {
       "name": "Larsen & Toubro",
       "symbol": "LT.BO",
       "shares": 10,
       "buy_price": 3641.52
+    },
+    {
+      "name": "Muthoot Finance Ltd",
+      "symbol": "MUTHOOTFIN.BO",
+      "shares": 5,
+      "buy_price": 3351.83
     },
     {
       "name": "Punjab National Bank",
