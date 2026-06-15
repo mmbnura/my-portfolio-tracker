@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 import streamlit as st
 import yfinance as yf
 import pandas as pd
@@ -81,36 +84,33 @@ if not check_password():
 
 
 # ─────────────────────────────────────────────
-# PORTFOLIO  (Equity_Summary_Details 20-03-2026)
+# PORTFOLIO HOLDINGS
 # Yahoo Finance BSE format : SYMBOL.BO
 # Yahoo Finance NSE format : SYMBOL.NS
 #
 # Special securities:
 #   SBI ETF Gold     → SETFGOLD.BO  (ETF, trades on BSE)
-#   2.50% Gold Bonds → Not listed on Yahoo Finance; tracked manually below.
+#   2.50% Gold Bonds → Not listed on Yahoo Finance; tracked separately in portfolio.json.
 # ─────────────────────────────────────────────
-PORTFOLIO = [
-    # name                            symbol           shares   buy_price
-    {"name": "ITC Hotels Ltd",        "symbol": "ITCHOTEL.BO",  "shares":   10, "buy_price":  580.95},
-    {"name": "ITC Ltd",               "symbol": "ITC.BO",       "shares":  200, "buy_price":  391.80},
-    {"name": "Indian Oil Corp",       "symbol": "IOC.BO",       "shares":  125, "buy_price":  135.83},
-    {"name": "J&K Bank",              "symbol": "J&KBANK.BO",   "shares":  200, "buy_price":   99.57},
-    {"name": "LIC of India",          "symbol": "LICI.BO",      "shares":   15, "buy_price":  904.00},
-    {"name": "Larsen & Toubro",       "symbol": "LT.BO",        "shares":   10, "buy_price": 3641.52},
-    {"name": "Punjab National Bank",  "symbol": "PNB.BO",       "shares":  160, "buy_price":   73.42},
-    {"name": "SBI Cards",             "symbol": "SBICARD.BO",   "shares":   63, "buy_price":  753.84},
-    {"name": "SBI ETF Gold",          "symbol": "SETFGOLD.BO",  "shares": 1500, "buy_price":   47.79},
-    {"name": "SBI Life Insurance",    "symbol": "SBILIFE.BO",   "shares":   49, "buy_price":  700.00},
-    {"name": "SAIL",                  "symbol": "SAIL.BO",      "shares":  500, "buy_price":   87.31},
-    {"name": "Tejas Networks",        "symbol": "TEJASNET.BO",  "shares":   50, "buy_price":  330.32},
-]
+PORTFOLIO_FILE = Path(__file__).with_name("portfolio.json")
 
-# Gold Bonds — current price derived live from COMEX gold futures + USD/INR
-# 1 SGB unit = 1 gram of 24K (999 purity) gold
-GOLD_BONDS = [
-    {"name": "2.50% Gold Bonds 2029 SR-XII",
-     "shares": 2, "buy_price": 4662.00},
-]
+
+def load_holdings():
+    """Load portfolio holdings from the JSON configuration file."""
+    try:
+        with PORTFOLIO_FILE.open(encoding="utf-8") as file:
+            holdings = json.load(file)
+    except FileNotFoundError:
+        st.error(f"⚠️ Portfolio file not found: `{PORTFOLIO_FILE.name}`")
+        st.stop()
+    except json.JSONDecodeError as error:
+        st.error(f"⚠️ Portfolio file contains invalid JSON: {error}")
+        st.stop()
+
+    return holdings.get("portfolio", []), holdings.get("gold_bonds", [])
+
+
+PORTFOLIO, GOLD_BONDS = load_holdings()
 
 # ─────────────────────────────────────────────
 # CSS
@@ -503,7 +503,7 @@ if st.session_state.errors:
             st.markdown(f'<div class="error-box">{e}</div>', unsafe_allow_html=True)
         st.markdown("""
 **Fixes to try:**
-- Wrong symbol → Search on [finance.yahoo.com](https://finance.yahoo.com) and update `PORTFOLIO` in `app.py`
+- Wrong symbol → Search on [finance.yahoo.com](https://finance.yahoo.com) and update `portfolio.json`
 - Delisted / renamed → Update the symbol
 - Network issue → Try again in a moment
 """)

@@ -1,0 +1,83 @@
+{
+  "portfolio": [
+    {
+      "name": "ITC Hotels Ltd",
+      "symbol": "ITCHOTEL.BO",
+      "shares": 10,
+      "buy_price": 580.95
+    },
+    {
+      "name": "ITC Ltd",
+      "symbol": "ITC.BO",
+      "shares": 200,
+      "buy_price": 391.80
+    },
+    {
+      "name": "Indian Oil Corp",
+      "symbol": "IOC.BO",
+      "shares": 125,
+      "buy_price": 135.83
+    },
+    {
+      "name": "J&K Bank",
+      "symbol": "J&KBANK.BO",
+      "shares": 200,
+      "buy_price": 99.57
+    },
+    {
+      "name": "LIC of India",
+      "symbol": "LICI.BO",
+      "shares": 15,
+      "buy_price": 904.00
+    },
+    {
+      "name": "Larsen & Toubro",
+      "symbol": "LT.BO",
+      "shares": 10,
+      "buy_price": 3641.52
+    },
+    {
+      "name": "Punjab National Bank",
+      "symbol": "PNB.BO",
+      "shares": 160,
+      "buy_price": 73.42
+    },
+    {
+      "name": "SBI Cards",
+      "symbol": "SBICARD.BO",
+      "shares": 63,
+      "buy_price": 753.84
+    },
+    {
+      "name": "SBI ETF Gold",
+      "symbol": "SETFGOLD.BO",
+      "shares": 1500,
+      "buy_price": 47.79
+    },
+    {
+      "name": "SBI Life Insurance",
+      "symbol": "SBILIFE.BO",
+      "shares": 49,
+      "buy_price": 700.00
+    },
+    {
+      "name": "SAIL",
+      "symbol": "SAIL.BO",
+      "shares": 500,
+      "buy_price": 87.31
+    },
+    {
+      "name": "Tejas Networks",
+      "symbol": "TEJASNET.BO",
+      "shares": 50,
+      "buy_price": 330.32
+    }
+  ],
+  "gold_bonds": [
+    {
+      "name": "2.50% Gold Bonds 2029 SR-XII",
+      "shares": 2,
+      "buy_price": 4662.00
+    }
+  ]
+}
