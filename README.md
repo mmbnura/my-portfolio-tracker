@@ -14,7 +14,7 @@ A personal stock portfolio dashboard built with **Python + Streamlit**, powered 
 | 📈 Trend Analysis | 7-day + 3-day momentum combined signal per stock |
 | 💰 Summary Cards | Total Invested · Current Value · Net P&L · Overall Return % |
 | 🏆 Gainers / Losers | At-a-glance top performers and underperformers |
-| ⚡ Fast Refresh | All 12 live tickers fetched in ~5–10 seconds |
+| ⚡ Fast Refresh | All 24 live tickers fetched in ~5–10 seconds |
 | 🌙 Dark Theme | GitHub-style dark UI with IBM Plex Mono |
 
 ---
@@ -23,18 +23,30 @@ A personal stock portfolio dashboard built with **Python + Streamlit**, powered 
 
 | Stock | Symbol | Qty | Avg Cost |
 |---|---|---|---|
-| ITC Hotels Ltd | `ITCHOTEL.BO` | 10 | ₹580.95 |
+| Coal India Ltd | `COALINDIA.BO` | 10 | ₹460.07 |
+| ITC Hotels Ltd | `ITCHOTELS.BO` | 10 | ₹580.95 |
 | ITC Ltd | `ITC.BO` | 200 | ₹391.80 |
-| Indian Oil Corp | `IOC.BO` | 125 | ₹135.83 |
-| J&K Bank | `J&KBANK.BO` | 200 | ₹99.57 |
-| LIC of India | `LICI.BO` | 15 | ₹904.00 |
-| Larsen & Toubro | `LT.BO` | 10 | ₹3,641.52 |
+| Indian Oil Corporation Ltd | `IOC.BO` | 125 | ₹135.83 |
+| Jammu and Kashmir Bank Ltd | `J&KBANK.BO` | 200 | ₹99.57 |
+| Life Insurance Corporation of India | `LICI.BO` | 30 | ₹452.00 |
+| Larsen & Toubro Ltd | `LT.BO` | 10 | ₹3,641.52 |
+| Muthoot Finance Ltd | `MUTHOOTFIN.BO` | 5 | ₹3,351.83 |
 | Punjab National Bank | `PNB.BO` | 160 | ₹73.42 |
-| SBI Cards | `SBICARD.BO` | 63 | ₹753.84 |
-| SBI ETF Gold | `SETFGOLD.BO` | 1500 | ₹47.79 |
-| SBI Life Insurance | `SBILIFE.BO` | 49 | ₹700.00 |
-| SAIL | `SAIL.BO` | 500 | ₹87.31 |
-| Tejas Networks | `TEJASNET.BO` | 50 | ₹330.32 |
+| SBI Cards & Payment Services Ltd | `SBICARD.BO` | 63 | ₹753.84 |
+| SBI ETF Gold | `SBIGETS.BO` | 1500 | ₹47.79 |
+| SBI Funds Management Ltd | `SBIFUNDS.BO` | 39 | ₹520.00 |
+| SBI Life Insurance Company Ltd | `SBILIFE.BO` | 49 | ₹700.00 |
+| Steel Authority of India Ltd | `SAIL.BO` | 500 | ₹87.31 |
+| Tejas Networks Ltd | `TEJASNET.BO` | 50 | ₹330.32 |
+| Aeroflex Neu Ltd | `AERONEU.BO` | 130 | ₹80.22 |
+| APAR Industries Ltd | `APARINDS.BO` | 25 | ₹17,776.00 |
+| Bajaj Finserv Ltd | `BAJAJFINSV.BO` | 30 | ₹1,771.00 |
+| Coforge Ltd | `COFORGE.BO` | 50 | ₹1,784.00 |
+| Indian Railway Finance Corporation Ltd | `IRFC.BO` | 391 | ₹79.95 |
+| Jio Financial Services Ltd | `JIOFIN.BO` | 100 | ₹227.00 |
+| Maan Aluminium Ltd | `MAANALU.BO` | 400 | ₹100.18 |
+| Orient Paper & Industries Ltd | `ORIENTPPR.BO` | 170 | ₹16.76 |
+| Tata Steel Ltd | `TATASTEEL.BO` | 405 | ₹187.97 |
 | 2.50% Gold Bonds 2029 SR-XII | *(manual)* | 2 | ₹4,662.00 |
 
 > **Note:** Sovereign Gold Bonds (SGBs) are configured in `portfolio.json`; their current value is derived live from COMEX gold futures and USD/INR.

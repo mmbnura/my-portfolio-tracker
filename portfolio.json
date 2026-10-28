@@ -16,28 +16,28 @@
       "name": "ITC Ltd",
       "symbol": "ITC.BO",
       "shares": 200,
-      "buy_price": 391.80
+      "buy_price": 391.8
     },
     {
-      "name": "Indian Oil Corp",
+      "name": "Indian Oil Corporation Ltd",
       "symbol": "IOC.BO",
       "shares": 125,
       "buy_price": 135.83
     },
     {
-      "name": "J&K Bank",
+      "name": "Jammu and Kashmir Bank Ltd",
       "symbol": "J&KBANK.BO",
       "shares": 200,
       "buy_price": 99.57
     },
     {
-      "name": "LIC of India",
+      "name": "Life Insurance Corporation of India",
       "symbol": "LICI.BO",
       "shares": 30,
-      "buy_price": 452.00
+      "buy_price": 452.0
     },
     {
-      "name": "Larsen & Toubro",
+      "name": "Larsen & Toubro Ltd",
       "symbol": "LT.BO",
       "shares": 10,
       "buy_price": 3641.52
@@ -55,41 +55,101 @@
       "buy_price": 73.42
     },
     {
-      "name": "SBI Cards",
+      "name": "SBI Cards & Payment Services Ltd",
       "symbol": "SBICARD.BO",
       "shares": 63,
       "buy_price": 753.84
     },
     {
       "name": "SBI ETF Gold",
-      "symbol": "SETFGOLD.BO",
+      "symbol": "SBIGETS.BO",
       "shares": 1500,
       "buy_price": 47.79
     },
     {
-      "name": "SBI Life Insurance",
-      "symbol": "SBILIFE.BO",
-      "shares": 49,
-      "buy_price": 700.00
+      "name": "SBI Funds Management Ltd",
+      "symbol": "SBIFUNDS.BO",
+      "shares": 39,
+      "buy_price": 520.0
     },
     {
-      "name": "SAIL",
+      "name": "SBI Life Insurance Company Ltd",
+      "symbol": "SBILIFE.BO",
+      "shares": 49,
+      "buy_price": 700.0
+    },
+    {
+      "name": "Steel Authority of India Ltd",
       "symbol": "SAIL.BO",
       "shares": 500,
       "buy_price": 87.31
     },
     {
-      "name": "Tejas Networks",
+      "name": "Tejas Networks Ltd",
       "symbol": "TEJASNET.BO",
       "shares": 50,
       "buy_price": 330.32
+    },
+    {
+      "name": "Aeroflex Neu Ltd",
+      "symbol": "AERONEU.BO",
+      "shares": 130,
+      "buy_price": 80.22
+    },
+    {
+      "name": "APAR Industries Ltd",
+      "symbol": "APARINDS.BO",
+      "shares": 25,
+      "buy_price": 17776.0
+    },
+    {
+      "name": "Bajaj Finserv Ltd",
+      "symbol": "BAJAJFINSV.BO",
+      "shares": 30,
+      "buy_price": 1771.0
+    },
+    {
+      "name": "Coforge Ltd",
+      "symbol": "COFORGE.BO",
+      "shares": 50,
+      "buy_price": 1784.0
+    },
+    {
+      "name": "Indian Railway Finance Corporation Ltd",
+      "symbol": "IRFC.BO",
+      "shares": 391,
+      "buy_price": 79.95
+    },
+    {
+      "name": "Jio Financial Services Ltd",
+      "symbol": "JIOFIN.BO",
+      "shares": 100,
+      "buy_price": 227.0
+    },
+    {
+      "name": "Maan Aluminium Ltd",
+      "symbol": "MAANALU.BO",
+      "shares": 400,
+      "buy_price": 100.18
+    },
+    {
+      "name": "Orient Paper & Industries Ltd",
+      "symbol": "ORIENTPPR.BO",
+      "shares": 170,
+      "buy_price": 16.76
+    },
+    {
+      "name": "Tata Steel Ltd",
+      "symbol": "TATASTEEL.BO",
+      "shares": 405,
+      "buy_price": 187.97
     }
   ],
   "gold_bonds": [
     {
       "name": "2.50% Gold Bonds 2029 SR-XII",
       "shares": 2,
-      "buy_price": 4662.00
+      "buy_price": 4662.0
     }
   ]
 }
